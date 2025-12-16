@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>CV Builder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Styles de base et template -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link id="template-css" rel="stylesheet" href="css/template1.css" />
+</head>
+
+<body>
+
+    <header>
+        <h2>CV Builder</h2>
+        <div>
+            <!-- Boutons de changement de langue -->
+            <button id="lang-fr">FR</button>
+            <button id="lang-en">EN</button>
+            <!-- Export / Preview -->
+            <button id="preview-pdf">Aperçu PDF</button>
+            <button id="export-pdf">Exporter PDF</button>
+        </div>
+    </header>
+
+    <main>
+        <nav>
+            <!-- Boutons de navigation : data-section identifie la vue à rendre -->
+            <button data-section="contact">Contact</button>
+            <button data-section="profile">Profil</button>
+            <button data-section="experience">Expériences</button>
+            <button data-section="education">Éducation</button>
+            <button data-section="references">Références</button>
+            <button data-section="aptitudes">Aptitudes</button>
+        </nav>
+
+        <!-- Zone où on injecte le formulaire actif -->
+        <section id="form-area"></section>
+
+        <!-- Aperçu rendu du CV -->
+        <section id="preview-area">
+            <div id="cv-preview"></div>
+        </section>
+    </main>
+
+    <!-- Charger html2canvas explicitement (nécessaire pour export multi-page) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Ajouter jsPDF UMD -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- puis html2pdf qui utilise html2canvas + jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>

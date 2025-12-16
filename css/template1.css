@@ -1,0 +1,88 @@
+.cv-header h1 {
+    margin: 0;
+    color: #0a3d62;
+}
+
+.cv-header h3 {
+    margin: 0;
+    font-weight: normal;
+}
+
+.exp {
+    margin-bottom: 15px;
+}
+
+/* variables pour régler rapidement la largeur de la bande */
+:root {
+  --cv-width: 840px;
+  --left-width: 200px; /* <-- réduire ici pour diminuer la bande (ex: 180px) */
+  --photo-size: calc(var(--left-width) * 0.45);
+}
+
+/* Template : deux colonnes, barre gauche colorée, droite blanche */
+.cv { display:flex; width:var(--cv-width); background:#fff; border-radius:4px; overflow:hidden; box-shadow:0 4px 18px rgba(10,20,20,0.08); }
+.cv .left { width:var(--left-width); background:#355f5a; color:#fff; padding:22px; display:flex; flex-direction:column; gap:18px; align-items:flex-start; }
+.cv .left .photo { width:var(--photo-size); height:var(--photo-size); border-radius:50%; object-fit:cover; border:4px solid rgba(255,255,255,0.9); box-shadow:0 2px 8px rgba(0,0,0,0.15); }
+.cv .left .photo.placeholder { background:rgba(255,255,255,0.08); width:var(--photo-size); height:var(--photo-size); border-radius:50%; display:block; }
+
+/* Left blocks */
+.block { margin-bottom:14px; }
+.block h3 { margin:0 0 8px 0; font-size:12px; letter-spacing:1px; color:rgba(255,255,255,0.9); text-transform:uppercase; border-bottom:2px solid rgba(255,255,255,0.08); padding-bottom:8px; }
+.left p, .left li { margin:6px 0; font-size:13px; color:rgba(255,255,255,0.95); }
+
+/* Right column */
+.cv .right { flex:1; padding:28px 32px; color:#222; }
+.cv .right h1 { margin:0; font-size:22px; color:#2b3a36; }
+.cv .right h2 { margin:6px 0 18px; font-size:14px; color:#2f6b67; font-weight:700; letter-spacing:0.4px; border-bottom:3px solid #111; width:200px; padding-bottom:6px; }
+
+/* Right blocks */
+.cv .right .block { margin-bottom:18px; }
+.cv .right .block h3 { margin:0 0 8px 0; font-size:12px; text-transform:uppercase; color:#333; letter-spacing:1px; }
+.experience { margin-bottom:12px; }
+.experience strong { display:block; font-weight:700; color:#111; }
+.experience .dates { font-size:12px; color:#666; margin-bottom:6px; }
+
+/* Lists */
+.left ul, .cv .right ul { padding-left:16px; margin:0; }
+.left li { list-style:disc; }
+
+/* contact rows with icons */
+.contact .contact-row { display:flex; align-items:center; gap:10px; margin:6px 0; }
+.contact .contact-row .icon { width:18px; height:18px; display:inline-flex; flex:0 0 18px; }
+.contact .contact-row .icon svg { width:100%; height:100%; fill:rgba(255,255,255,0.95); display:block; }
+.contact .contact-row a, .contact .contact-row span { color:rgba(255,255,255,0.95); text-decoration:none; font-size:13px; }
+.contact .contact-row a:hover { text-decoration:underline; }
+
+/* small tweaks for name/title in contact block */
+.contact .name { font-weight:700; margin-top:8px; }
+.contact .title { font-size:13px; opacity:0.95; margin-bottom:8px; }
+
+/* Responsive */
+@media (max-width:900px) {
+  main { grid-template-columns:1fr; padding:12px; }
+  #form-area { order:2; margin-top:12px; }
+  #preview-area { order:1; margin-bottom:12px; }
+  .cv { width:100%; flex-direction:column; }
+  .cv .left { width:100%; padding:18px; flex-direction:row; gap:16px; align-items:center; }
+  .cv .left .photo, .cv .left .photo.placeholder { width:72px; height:72px; }
+  .cv .right { padding:18px; }
+}
+
+/* Forcer la zone CV au format A4 pendant l'export pour que la bande gauche remplisse toute la page */
+.cv.for-pdf {
+  width: 210mm;
+  height: 297mm;    /* fixe (pas min-height) */
+  overflow: hidden; /* empêche fractionnement visuel */
+  box-shadow: none;
+  border-radius: 0;
+}
+/* on garde .cv.for-pdf .left si besoin mais on n'utilise plus min-height */
+.cv.for-pdf .left {
+  height: 100%;
+}
+
+/* fallback si impression depuis le navigateur */
+@media print {
+  .cv { width:210mm; min-height:297mm; box-shadow:none; border-radius:0; }
+  .cv .left { min-height:297mm; height:100%; }
+}
