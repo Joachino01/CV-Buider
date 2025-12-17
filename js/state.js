@@ -9,7 +9,9 @@ export const cvData = {
     address: 'Lomé, Togo',
     linkedin: '',
     website: '',
-    photo: '' // base64 dataURL stockée après upload
+    photo: '',
+
+    marital: ''   // <-- nouvel attribut
   },
   profile: {
     summary: 'Professional summary goes here...',

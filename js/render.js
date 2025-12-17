@@ -13,18 +13,31 @@ function svgIcon(name) {
   return icons[name] || '';
 }
 
+// helper pour formater les dates (input type date => YYYY-MM-DD)
+function formatDate(dateStr, lang) {
+  const s = t(lang);
+  if (!dateStr) return '';
+  if (dateStr === 'present') return s.present;
+  try {
+    // format: Month YYYY (internationalized)
+    const d = new Date(dateStr);
+    if (isNaN(d)) return dateStr;
+    return new Intl.DateTimeFormat(lang === 'fr' ? 'fr-FR' : 'en-US', { year: 'numeric', month: 'short' }).format(d);
+  } catch (e) {
+    return dateStr;
+  }
+}
+
 // met à jour l'aperçu #cv-preview
 export function renderCV() {
   const root = document.getElementById('cv-preview');
   if (!root) return;
-  const s = t(cvData.language); // libellés pour la langue active
-
+  const s = t(cvData.language);
   const c = cvData.contact;
   const p = cvData.profile;
   const esc = v => (v || '').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
-  // helpers pour savoir si on doit afficher une section
-  const hasContact = [c.name, c.title, c.email, c.phone, c.address, c.linkedin, c.website].some(Boolean);
+  const hasContact = [c.name, c.title, c.email, c.phone, c.address, c.linkedin, c.website, c.marital].some(Boolean);
   const hasSkills = (p.skills || []).length > 0;
   const hasLanguages = (p.languages || []).length > 0;
   const hasAptitudes = (cvData.aptitudes || []).length > 0;
@@ -43,6 +56,7 @@ export function renderCV() {
           <h3>${s.contact}</h3>
           ${c.name ? `<p class="name">${esc(c.name)}</p>` : ''}
           ${c.title ? `<p class="title">${esc(c.title)}</p>` : ''}
+          ${c.marital ? `<div class="contact-row"><span class="icon"></span><span>${esc(s.maritalOptions[c.marital] || c.marital)}</span></div>` : ''}
           ${c.email ? `<div class="contact-row"><span class="icon">${svgIcon('email')}</span><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></div>` : ''}
           ${c.phone ? `<div class="contact-row"><span class="icon">${svgIcon('phone')}</span><a href="tel:${esc(c.phone)}">${esc(c.phone)}</a></div>` : ''}
           ${c.address ? `<div class="contact-row"><span class="icon">${svgIcon('address')}</span><span>${esc(c.address)}</span></div>` : ''}
@@ -51,34 +65,34 @@ export function renderCV() {
         </div>
         ` : ''}
 
-        ${hasSkills ? `<div class="block"><h3>${s.skills}</h3><ul>${(p.skills||[]).map(item => `<li>${esc(item)}</li>`).join('')}</ul></div>` : ''}
-        ${hasLanguages ? `<div class="block"><h3>${s.languages}</h3><ul>${(p.languages||[]).map(l => `<li>${esc(l)}</li>`).join('')}</ul></div>` : ''}
-        ${hasAptitudes ? `<div class="block"><h3>${s.aptitudes}</h3><ul>${(cvData.aptitudes||[]).map(a => `<li>${esc(a)}</li>`).join('')}</ul></div>` : ''}
+        ${ (p.skills||[]).length ? `<div class="block"><h3>${s.skills}</h3><ul>${(p.skills||[]).map(item => `<li>${esc(item)}</li>`).join('')}</ul></div>` : '' }
+        ${ (p.languages||[]).length ? `<div class="block"><h3>${s.languages}</h3><ul>${(p.languages||[]).map(l => `<li>${esc(l)}</li>`).join('')}</ul></div>` : '' }
+        ${ (cvData.aptitudes||[]).length ? `<div class="block"><h3>${s.aptitudes}</h3><ul>${(cvData.aptitudes||[]).map(a => `<li>${esc(a)}</li>`).join('')}</ul></div>` : '' }
       </aside>
 
       <section class="right">
         ${c.name ? `<h1>${esc(c.name)}</h1>` : ''}
         ${c.title ? `<h2>${esc(c.title)}</h2>` : ''}
 
-        ${hasSummary ? `<div class="summary block"><h3>${s.summaryHeading}</h3><p>${esc(p.summary)}</p></div>` : ''}
+        ${p.summary ? `<div class="summary block"><h3>${s.summaryHeading}</h3><p>${esc(p.summary)}</p></div>` : ''}
 
-        ${hasExperiences ? `<div class="block"><h3>${s.experienceHeading}</h3>${(cvData.experiences || []).map(exp => `
+        ${(cvData.experiences || []).length ? `<div class="block"><h3>${s.experienceHeading}</h3>${(cvData.experiences || []).map(exp => `
             <div class="experience">
               <strong>${esc(exp.title)}</strong> — <em>${esc(exp.company)}</em>
-              <div class="dates">${esc(exp.start)} — ${esc(exp.end)}</div>
+              <div class="dates">${formatDate(exp.start, cvData.language)} — ${formatDate(exp.end, cvData.language)}</div>
               <p>${esc(exp.desc)}</p>
             </div>
           `).join('')}</div>` : ''}
 
-        ${hasEducation ? `<div class="block"><h3>${s.educationHeading}</h3>${(cvData.education || []).map(ed => `
+        ${(cvData.education || []).length ? `<div class="block"><h3>${s.educationHeading}</h3>${(cvData.education || []).map(ed => `
             <div class="education-item">
               <strong>${esc(ed.degree)}</strong> — <em>${esc(ed.school)}</em>
-              <div class="dates">${esc(ed.start)} — ${esc(ed.end)}</div>
+              <div class="dates">${formatDate(ed.start, cvData.language)} — ${formatDate(ed.end, cvData.language)}</div>
               <p>${esc(ed.desc)}</p>
             </div>
           `).join('')}</div>` : ''}
 
-        ${hasReferences ? `<div class="block"><h3>${s.referencesHeading}</h3>${(cvData.references || []).map(r => `
+        ${(cvData.references || []).length ? `<div class="block"><h3>${s.referencesHeading}</h3>${(cvData.references || []).map(r => `
             <div class="ref-item">
               <strong>${esc(r.name)}</strong>
               <p>${esc(r.contact)}</p>

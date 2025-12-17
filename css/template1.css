@@ -15,8 +15,8 @@
 /* variables pour régler rapidement la largeur de la bande */
 :root {
   --cv-width: 840px;
-  --left-width: 200px; /* <-- réduire ici pour diminuer la bande (ex: 180px) */
-  --photo-size: calc(var(--left-width) * 0.45);
+  --left-width: 240px; /* ← augmenté (ex: 240px). Ajuste ici si tu veux plus/moins */
+  --photo-size: calc(var(--left-width) * 0.42); /* photo adaptée à la nouvelle largeur */
 }
 
 /* Template : deux colonnes, barre gauche colorée, droite blanche */
@@ -46,11 +46,16 @@
 .left ul, .cv .right ul { padding-left:16px; margin:0; }
 .left li { list-style:disc; }
 
-/* contact rows with icons */
+/* contact rows with icons (ajout de wrapping pour éviter overflow) */
 .contact .contact-row { display:flex; align-items:center; gap:10px; margin:6px 0; }
 .contact .contact-row .icon { width:18px; height:18px; display:inline-flex; flex:0 0 18px; }
 .contact .contact-row .icon svg { width:100%; height:100%; fill:rgba(255,255,255,0.95); display:block; }
-.contact .contact-row a, .contact .contact-row span { color:rgba(255,255,255,0.95); text-decoration:none; font-size:13px; }
+.contact .contact-row a, .contact .contact-row span {
+  color:rgba(255,255,255,0.95); text-decoration:none; font-size:13px;
+  white-space:normal;           /* permet le retour à la ligne */
+  overflow-wrap:anywhere;       /* coupe/retourne les mots trop longs (URLs, emails) */
+  word-break:break-word;
+}
 .contact .contact-row a:hover { text-decoration:underline; }
 
 /* small tweaks for name/title in contact block */
