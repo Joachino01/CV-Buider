@@ -72,7 +72,7 @@ export function renderCV() {
 
       <section class="right">
         ${c.name ? `<h1>${esc(c.name)}</h1>` : ''}
-        ${c.title ? `<h2>${esc(c.title)}</h2>` : ''}
+        <h2>${c.title ? esc(c.title) : ''}</h2>
 
         ${p.summary ? `<div class="summary block"><h3>${s.summaryHeading}</h3><p>${esc(p.summary)}</p></div>` : ''}
 

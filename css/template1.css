@@ -76,14 +76,23 @@
 /* Forcer la zone CV au format A4 pendant l'export pour que la bande gauche remplisse toute la page */
 .cv.for-pdf {
   width: 210mm;
-  height: 297mm;    /* fixe (pas min-height) */
-  overflow: hidden; /* empêche fractionnement visuel */
+  /* autorise la hauteur à croître si le contenu dépasse une page */
+  min-height: 297mm;
+  overflow: visible;
   box-shadow: none;
   border-radius: 0;
 }
-/* on garde .cv.for-pdf .left si besoin mais on n'utilise plus min-height */
+/* laisser la colonne gauche s'adapter au contenu (ne pas forcer 100% fixe) */
 .cv.for-pdf .left {
-  height: 100%;
+  min-height: auto;
+  height: auto;
+}
+
+/* séparation visuelle des éléments pour améliorer la lisibilité */
+.experience, .education-item, .ref-item {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 /* fallback si impression depuis le navigateur */

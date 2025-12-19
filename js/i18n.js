@@ -42,6 +42,7 @@ export const strings = {
     educationHeading: 'EDUCATION',
     referencesHeading: 'RÉFÉRENCES',
     add: 'Ajouter',
+    edit: 'Modifier',
     remove: 'Supprimer',
     export: 'Exporter PDF'
   },
@@ -73,6 +74,7 @@ export const strings = {
     educationHeading: 'EDUCATION',
     referencesHeading: 'REFERENCES',
     add: 'Add',
+    edit: 'Edit',
     remove: 'Remove',
     export: 'Export PDF'
   }

@@ -163,7 +163,9 @@ export function previewPDF() {
     const availW = viewport.clientWidth - 40; // account padding
     const availH = viewport.clientHeight - 40;
     const rect = clone.getBoundingClientRect();
-    const scale = Math.min(availW / rect.width, availH / rect.height, 1);
+    // cap the preview scale so the page is not shown too large — user-friendly default
+    const MAX_PREVIEW_SCALE = 0.78;
+    const scale = Math.min(availW / rect.width, availH / rect.height, MAX_PREVIEW_SCALE);
     clone.style.transform = `scale(${scale})`;
   });
 
